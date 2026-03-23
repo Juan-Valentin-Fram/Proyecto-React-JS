@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio Botón JS</title>
+    <style>
+        #miBoton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="miBoton">Haz clic aquí</button>
+
+    <script>
+        function Button(props) {
+            return (
+                <button onClick={props.onClick}>
+                    {props.label}
+                </button>
+            );
+        }
+
+        function App() {
+            const manejarClick = () => {
+                console.log("¡Botón clickeado!"); // Esto se verá en la consola (F12)
+                alert("¡Has hecho clic en el botón de React!");
+            };
+
+            return (
+                <div>
+                    <h1>Bienvenido a mi primera App</h1>
+                    <Button
+                        label="Haz clic aquí"
+                        onClick={manejarClick}
+                    />
+                </div>
+            );
+        }
+    </script>
+</body>
+
+</html>
