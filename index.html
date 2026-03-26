@@ -1,13 +1,55 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>reactjs</title>
-  </head>
-  <body>
+    <title>Ejercicio Botón JS</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin defer></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin defer></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
+    <script type="text/babel" src="./scripts/main.js" defer></script>
+    <style>
+        #miBoton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+    <button id="miBoton">Haz clic aquí</button>
+
+    <script>
+        function Button(props) {
+            return (
+                <button onClick={props.onClick}>
+                    {props.label}
+                </button>
+            );
+        }
+
+        function App() {
+            const manejarClick = () => {
+                console.log("¡Botón clickeado!"); // Esto se verá en la consola (F12)
+                alert("¡Has hecho clic en el botón de React!");
+            };
+
+            return (
+                <div>
+                    <h1>Bienvenido a mi primera App</h1>
+                    <Button
+                        label="Haz clic aquí"
+                        onClick={manejarClick}
+                    />
+                </div>
+            );
+        }
+    </script>
+</body>
+
 </html>

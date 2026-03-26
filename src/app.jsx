@@ -1,4 +1,4 @@
-import ContadorContenedor from '../components/contadorcontenedor';
+import ContadorContenedor from '../components/ContadorContenedor';
 
 function App() {
     return (
