@@ -9,11 +9,15 @@ const Cart = () => {
 
     if (cart.length === 0) {
         return (
-            <div style={{ textAlign: 'center', padding: '100px' }}>
-                <h1>Tu carrito está vacío</h1>
-                <Link to="/" style={{ display: 'inline-block', marginTop: '20px', color: '#aa3bff', fontWeight: 'bold' }}>
-                    Volver a la tienda
-                </Link>
+            <div className="cart-empty-container">
+                <div className="cart-empty-card">
+                    <div className="cart-empty-icon">🛒</div>
+                    <h1>Tu carrito está vacío</h1>
+                    <p>Parece que aún no has agregado nada a tu carrito.</p>
+                    <Link to="/" className="btn-submit" style={{ textDecoration: 'none', display: 'inline-block', width: 'auto', padding: '12px 40px' }}>
+                        Volver a la tienda
+                    </Link>
+                </div>
             </div>
         );
     }

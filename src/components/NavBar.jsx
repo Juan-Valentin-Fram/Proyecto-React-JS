@@ -1,19 +1,36 @@
 import { Link } from 'react-router-dom';
 import CartWidget from './CartWidget';
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
     return (
-        <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', backgroundColor: '#f5f5f5', alignItems: 'center' }}>
+        <nav className="navbar">
             <Link to="/" style={{ fontSize: '24px', fontWeight: 'bold', textDecoration: 'none', color: '#453572' }}>
                 Click&Shop
             </Link>
 
-            <ul style={{ display: 'flex', listStyle: 'none', gap: '20px' }}>
-                <li><Link to="/category/almacen" style={{ textDecoration: 'none', color: 'black' }}>Almacén</Link></li>
-                <li><Link to="/category/bebidas" style={{ textDecoration: 'none', color: 'black' }}>Bebidas</Link></li>
-                <li><Link to="/category/limpieza" style={{ textDecoration: 'none', color: 'black' }}>Limpieza</Link></li>
-            </ul>
+            <div className="navbar-links">
+                <NavLink
+                    to="/category/almacen"
+                    className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+                >
+                    Almacén
+                </NavLink>
 
+                <NavLink
+                    to="/category/bebidas"
+                    className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+                >
+                    Bebidas
+                </NavLink>
+
+                <NavLink
+                    to="/category/limpieza"
+                    className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+                >
+                    Limpieza
+                </NavLink>
+            </div>
             <CartWidget />
         </nav>
     );
