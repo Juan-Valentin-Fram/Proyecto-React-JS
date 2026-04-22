@@ -1,45 +1,48 @@
-import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getProducts, getProductsByCategory } from '../data/asyncMock';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../firebase/config";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import ItemList from "./ItemList";
 
-const ItemListContainer = ({ greeting }) => {
-    const [products, setProducts] = useState([]);
-    const { id } = useParams();
+const ItemListContainer = () => {
+    const [productos, setProductos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { categoryId } = useParams(); 
 
+    console.log("ID de categoría detectado:", categoryId);
+    
     useEffect(() => {
-        const asyncFunc = id ? getProductsByCategory : getProducts;
+        setLoading(true);
 
-        asyncFunc(id)
-            .then(response => setProducts(response))
-            .catch(error => console.error(error));
-    }, [id]);
+        const productosRef = collection(db, "productos");
+
+        const q = categoryId 
+            ? query(productosRef, where("category", "==", categoryId)) 
+            : productosRef;
+
+        getDocs(q)
+            .then((resp) => {
+                setProductos(
+                    resp.docs.map((doc) => {
+                        return { ...doc.data(), id: doc.id };
+                    })
+                );
+            })
+            .catch((error) => console.log("Error al filtrar:", error))
+            .finally(() => {
+                setLoading(false);
+            });
+
+    }, [categoryId]);
+
+    if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px' }}>Cargando productos...</h2>;
 
     return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-            <h1>{greeting}</h1>
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {products.map(prod => (
-                    <div key={prod.id} style={{ border: '1px solid #453572', padding: '10px', borderRadius: '8px', width: '200px' }}>
-                        <img src={prod.img} alt={prod.name} style={{ width: '100%' }} />
-                        <h3>{prod.name}</h3>
-                        <p>${prod.price}</p>
-                        <Link
-                            to={`/item/${prod.id}`}
-                            style={{
-                                backgroundColor: '#453572',
-                                color: 'white',
-                                textDecoration: 'none',
-                                padding: '8px 15px',
-                                borderRadius: '5px',
-                                display: 'inline-block',
-                                fontSize: '0.9rem'
-                            }}
-                        >
-                            Ver detalle
-                        </Link>
-                    </div>
-                ))}
-            </div>
+        <div className="container">
+            <h2 style={{ textAlign: 'center', margin: '30px 0', color: '#453572', textTransform: 'capitalize' }}>
+                {categoryId ? categoryId : "Nuestros Productos"}
+            </h2>
+            <ItemList productos={productos} />
         </div>
     );
 };
