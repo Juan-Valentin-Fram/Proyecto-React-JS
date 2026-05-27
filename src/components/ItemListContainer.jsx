@@ -7,17 +7,17 @@ import ItemList from "./ItemList";
 const ItemListContainer = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { categoryId } = useParams(); 
+    const { categoryId } = useParams();
 
     console.log("ID de categoría detectado:", categoryId);
-    
+
     useEffect(() => {
         setLoading(true);
 
         const productosRef = collection(db, "productos");
 
-        const q = categoryId 
-            ? query(productosRef, where("category", "==", categoryId)) 
+        const q = categoryId
+            ? query(productosRef, where("category", "==", categoryId))
             : productosRef;
 
         getDocs(q)
@@ -42,7 +42,22 @@ const ItemListContainer = () => {
             <h2 style={{ textAlign: 'center', margin: '30px 0', color: '#453572', textTransform: 'capitalize' }}>
                 {categoryId ? categoryId : "Nuestros Productos"}
             </h2>
-            <ItemList productos={productos} />
+
+            {productos.length === 0 ? (
+                <div style={{
+                    textAlign: 'center',
+                    padding: '40px 20px',
+                    color: '#555',
+                    margin: '20px auto',
+                    maxWidth: '600px'
+                }}>
+                    <p style={{ fontSize: '20px', fontStyle: 'italic', color: '#777' }}>
+                        ¡Próximamente vas a encontrar productos de <strong>{categoryId || "esta categoría"}</strong> acá! Estamos armando el stock. ⏳
+                    </p>
+                </div>
+            ) : (
+                <ItemList productos={productos} />
+            )}
         </div>
     );
 };
